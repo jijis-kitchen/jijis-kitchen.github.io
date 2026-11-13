@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>Jiji's Kitchen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fff9f1; --bg2:#ffefe0; --card:#ffffff; --ink:#2d1f18; --muted:#6f574a;
+    --line:#ecdccb; --accent:#bc3f26; --accent-ink:#ffffff; --accent-soft:#fde8dd;
+    --green:#247356; --green-soft:#dff2e7; --gold:#c98a12; --gold-soft:#fdf0c9;
+    --shadow:0 18px 40px rgba(90,42,18,.14);
+    --radius:22px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#1d1511; --bg2:#2a1d16; --card:#2b201a; --ink:#f7ead9; --muted:#cbb3a1;
+      --line:#46352a; --accent:#f0764f; --accent-ink:#24120b; --accent-soft:#4a2b20;
+      --green:#6fd3a3; --green-soft:#1e3d2f; --gold:#f0bc4a; --gold-soft:#453612;
+      --shadow:0 18px 40px rgba(0,0,0,.45);
+    }
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Nunito Sans",system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.6}
+  img{display:block;max-width:100%}
+  a{color:var(--accent)}
+  button,[role="button"]{min-height:44px}
+  .wrap{width:min(1120px,100% - 32px);margin:0 auto}
+  @media(min-width:720px){.wrap{width:min(1120px,100% - 56px)}}
+
+  /* HERO */
+  .hero{padding:28px 0 8px;background:linear-gradient(180deg,var(--bg2),var(--bg))}
+  .hero-grid{display:grid;gap:28px;align-items:center}
+  @media(min-width:860px){.hero-grid{grid-template-columns:1.02fr .98fr;gap:44px;padding:22px 0 10px}}
+  .kicker{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);color:var(--muted);font-weight:800;font-size:.86rem;padding:8px 14px;border-radius:999px}
+  .kicker i{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block}
+  h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(2.9rem,9vw,5.2rem);line-height:.95;margin:18px 0 14px;letter-spacing:-.01em}
+  h1 em{color:var(--accent);font-style:italic}
+  .lead{font-size:clamp(1.05rem,2.6vw,1.28rem);color:var(--muted);max-width:34em;margin:0 0 22px}
+  .lead strong{color:var(--ink)}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:12px 20px;border-radius:999px;font-weight:800;text-decoration:none;border:1.5px solid var(--accent);font-size:1rem}
+  .btn-primary{background:var(--accent);color:var(--accent-ink)}
+  .btn-ghost{background:transparent;color:var(--accent)}
+  .hero-facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+  .fact{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 14px;min-width:104px}
+  .fact b{display:block;font-family:"Playfair Display",serif;font-size:1.35rem;line-height:1;color:var(--ink)}
+  .fact span{font-size:.82rem;color:var(--muted);font-weight:700}
+  .hero-media{position:relative}
+  .hero-main{border-radius:28px;overflow:hidden;box-shadow:var(--shadow);border:6px solid var(--card)}
+  .hero-main img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3}
+  .hero-inset{position:absolute;right:-6px;bottom:-22px;width:42%;border-radius:20px;overflow:hidden;border:5px solid var(--card);box-shadow:var(--shadow)}
+  .hero-inset img{aspect-ratio:3/4;object-fit:cover;width:100%}
+  .hero-note{position:absolute;left:12px;bottom:12px;background:rgba(20,12,8,.82);color:#fff;padding:8px 12px;border-radius:999px;font-size:.84rem;font-weight:700;backdrop-filter:blur(4px)}
+  @media(max-width:859px){.hero-inset{bottom:-14px}.hero-note{bottom:auto;top:12px;max-width:70%}}
+
+  section{padding:52px 0 8px}
+  .section-head{max-width:42em;margin-bottom:22px}
+  .section-head h2{font-family:"Playfair Display",Georgia,serif;font-size:clamp(1.9rem,5vw,2.7rem);line-height:1.1;margin:0 0 8px}
+  .section-head p{color:var(--muted);margin:0;font-size:1.05rem}
+  .label{font-weight:900;letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;color:var(--accent);margin-bottom:10px}
+
+  /* DISH CARDS */
+  .dishes{display:grid;gap:22px}
+  @media(min-width:820px){.dishes{grid-template-columns:1fr 1fr}}
+  .dish{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:0 8px 24px rgba(90,42,18,.07)}
+  .dish-photos{display:grid;grid-template-columns:1.35fr 1fr;gap:3px;background:var(--line)}
+  .dish-photos button{padding:0;border:0;background:none;cursor:pointer;min-height:0}
+  .dish-photos img{width:100%;height:100%;object-fit:cover}
+  .dish-photos .tall img{aspect-ratio:3/4}
+  .dish-photos .wide img{aspect-ratio:4/3.55}
+  .dish-photos .full{grid-column:1 / -1}
+  .dish-photos .full img{aspect-ratio:16/9}
+  .dish-body{padding:20px 20px 22px}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+  .tag{font-size:.78rem;font-weight:800;padding:6px 10px;border-radius:999px}
+  .tag-main{background:var(--accent-soft);color:var(--accent)}
+  .tag-dessert{background:var(--green-soft);color:var(--green)}
+  .tag-gold{background:var(--gold-soft);color:var(--gold)}
+  .dish h3{font-family:"Playfair Display",serif;font-size:1.55rem;line-height:1.15;margin:0 0 8px}
+  .dish p{color:var(--muted);margin:0 0 14px}
+  .dish ul{margin:0;padding:0;list-style:none;display:grid;gap:7px}
+  .dish li{display:flex;gap:9px;align-items:flex-start;font-size:.96rem}
+  .dish li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);margin-top:9px;flex:0 0 auto}
+  .dish.dessert li::before{background:var(--green)}
+
+  /* GALLERY */
+  .filters{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 18px}
+  .filter{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:10px 18px;font:inherit;font-weight:800;cursor:pointer;min-height:44px}
+  .filter[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .gallery{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(min-width:720px){.gallery{grid-template-columns:repeat(4,1fr);gap:16px}}
+  .shot{border:0;padding:0;background:var(--card);border-radius:18px;overflow:hidden;cursor:pointer;text-align:left;box-shadow:0 6px 18px rgba(90,42,18,.08)}
+  .shot img{width:100%;aspect-ratio:1/1.08;object-fit:cover}
+  .shot span{display:block;padding:10px 12px 12px;font-weight:800;font-size:.92rem;line-height:1.3}
+  .shot small{display:block;color:var(--muted);font-weight:600;margin-top:2px}
+  .shot[hidden]{display:none}
+
+  /* ABOUT */
+  .about-grid{display:grid;gap:22px}
+  @media(min-width:860px){.about-grid{grid-template-columns:1fr 1fr;gap:36px;align-items:start}}
+  .about-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px}
+  .about-card h3{font-family:"Playfair Display",serif;font-size:1.4rem;margin:0 0 10px}
+  .about-card p{color:var(--muted);margin:0 0 12px}
+  .about-card p:last-child{margin-bottom:0}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .chip{border:1px solid var(--line);background:var(--bg);padding:8px 12px;border-radius:999px;font-weight:700;font-size:.9rem}
+  .timeline{list-style:none;margin:0;padding:0;display:grid;gap:0}
+  .timeline li{display:grid;grid-template-columns:22px 1fr;gap:12px;padding:0 0 20px;position:relative}
+  .timeline li::before{content:"";position:absolute;left:10px;top:22px;bottom:0;width:2px;background:var(--line)}
+  .timeline li:last-child::before{display:none}
+  .dot{width:22px;height:22px;border-radius:50%;background:var(--accent-soft);border:2px solid var(--accent);margin-top:2px;z-index:1}
+  .timeline b{display:block}
+  .timeline span{color:var(--muted);font-size:.96rem}
+
+  /* COOK LIST */
+  .cook-grid{display:grid;gap:12px}
+  @media(min-width:720px){.cook-grid{grid-template-columns:repeat(3,1fr)}}
+  .cook-item{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+  .cook-item .icon{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);margin-bottom:12px}
+  .cook-item:nth-child(2) .icon{background:var(--green-soft);color:var(--green)}
+  .cook-item:nth-child(3) .icon{background:var(--gold-soft);color:var(--gold)}
+  .cook-item h3{margin:0 0 6px;font-size:1.08rem}
+  .cook-item p{margin:0;color:var(--muted);font-size:.96rem}
+
+  .closing{margin:52px 0 0;background:var(--ink);color:var(--bg);border-radius:28px;padding:30px 24px;text-align:center}
+  .closing h2{font-family:"Playfair Display",serif;font-size:clamp(1.7rem,5vw,2.4rem);margin:0 0 10px;line-height:1.15}
+  .closing p{opacity:.85;max-width:36em;margin:0 auto}
+  footer{padding:28px 0 40px;text-align:center;color:var(--muted);font-size:.92rem}
+  footer strong{color:var(--ink)}
+
+  /* LIGHTBOX */
+  dialog{border:0;padding:0;background:transparent;max-width:min(94vw,760px);width:100%}
+  dialog::backdrop{background:rgba(12,7,5,.82)}
+  .lb{background:var(--card);border-radius:20px;overflow:hidden}
+  .lb img{width:100%;max-height:72vh;object-fit:contain;background:#111}
+  .lb-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px}
+  .lb-bar b{font-size:1rem}
+  .lb-close{border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:10px 16px;font:inherit;font-weight:800;cursor:pointer;min-height:44px}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="kicker"><i></i> Homemade Filipino cooking</span>
+      <h1>Jiji&rsquo;s <em>Kitchen</em></h1>
+      <p class="lead">All of my cooking in one place &mdash; the <strong>rice plates, sandwiches, noodles, and sweet Filipino desserts</strong> I make at home and at work. Real food, made from the heart, just like home.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#dishes">See my dishes</a>
+        <a class="btn btn-ghost" href="#gallery">Browse photos</a>
+      </div>
+      <div class="hero-facts" aria-label="Quick facts">
+        <div class="fact"><b>7 years</b><span>in the kitchen</span></div>
+        <div class="fact"><b>Philippines</b><span>my roots</span></div>
+        <div class="fact"><b>Florida</b><span>based in the USA</span></div>
+      </div>
+    </div>
+    <div class="hero-media">
+      <div class="hero-main">
+        <img src="img-01.webp" alt="Edited homemade-style photo of Jiji's savory shredded meat served over a mound of white rice on a rustic plate, with glass noodles and chayote on the side" />
+      </div>
+      <div class="hero-note">Fresh from my kitchen &mdash; Nov 2026</div>
+      <div class="hero-inset">
+        <img src="img-02.webp" alt="Edited homemade-style photo of a glass of Jiji's creamy buko pandan dessert with green pandan jelly and young coconut" />
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="dishes" aria-labelledby="dishes-title">
+    <div class="section-head">
+      <div class="label">Featured dishes</div>
+      <h2 id="dishes-title">From my stove to the plate</h2>
+      <p>These are my own dishes &mdash; every photo below is the edited, homemade-style version. Tap any photo to see it up close.</p>
+    </div>
+
+    <div class="dishes">
+      <article class="dish">
+        <div class="dish-photos">
+          <button type="button" class="wide" data-lightbox="img-01.webp" data-caption="Savory rice plate — edited, wide shot" aria-label="Enlarge edited photo of the savory rice plate">
+            <img src="img-01.webp" alt="Edited homemade-style photo of savory shredded meat over molded white rice with sotanghon noodles and chayote, served on a rustic plate" loading="lazy" />
+          </button>
+          <button type="button" class="wide" data-lightbox="img-03.webp" data-caption="Savory rice plate — edited, close-up" aria-label="Enlarge edited close-up of the savory rice plate">
+            <img src="img-03.webp" alt="Edited close-up of shredded savory meat, potatoes and onions on top of fluffy white rice, with sotanghon and chayote beside it" loading="lazy" />
+          </button>
+        </div>
+        <div class="dish-body">
+          <div class="tags"><span class="tag tag-main">Main dish</span><span class="tag tag-gold">Homemade favorite</span></div>
+          <h3>Savory Rice Plate with Sotanghon</h3>
+          <p>A full, comforting plate the way I love to serve it &mdash; fluffy white rice piled high, topped with tender shredded savory meat cooked with potatoes and onions, and a side of silky glass noodles with chayote.</p>
+          <ul>
+            <li>Shredded meat simmered until tender, with potato &amp; onion</li>
+            <li>Steamed white rice, molded and sprinkled with herbs</li>
+            <li>Sotanghon (glass noodles) with chayote on the side</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="dish dessert">
+        <div class="dish-photos">
+          <button type="button" class="tall" data-lightbox="img-04.webp" data-caption="Buko pandan — edited, close-up" aria-label="Enlarge edited photo of buko pandan close-up">
+            <img src="img-04.webp" alt="Edited homemade-style close-up of buko pandan in a glass, with coconut strips, green pandan jelly and fruit in sweet cream" loading="lazy" />
+          </button>
+          <button type="button" class="tall" data-lightbox="img-02.webp" data-caption="Buko pandan — edited, served in a glass" aria-label="Enlarge edited photo of buko pandan in a glass">
+            <img src="img-02.webp" alt="Edited photo of a tall glass of creamy buko pandan with green pandan jelly cubes and young coconut, on a linen cloth" loading="lazy" />
+          </button>
+        </div>
+        <div class="dish-body">
+          <div class="tags"><span class="tag tag-dessert">Dessert</span><span class="tag tag-gold">Filipino classic</span></div>
+          <h3>Buko Pandan</h3>
+          <p>My take on the Filipino party classic &mdash; creamy, cold, and so refreshing. Young coconut and bright green pandan jelly folded into sweet cream. One spoon and it tastes like home.</p>
+          <ul>
+            <li>Young coconut (buko) strips in sweet cream</li>
+            <li>Pandan jelly cubes for that signature green</li>
+            <li>Served ice-cold in a glass, ready to dig in</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="dish">
+        <div class="dish-photos">
+          <button type="button" class="wide" data-lightbox="img-05.webp" data-caption="Toasted ham &amp; cheese sandwich — on a big plate" aria-label="Enlarge photo of the toasted sandwich served on a big plate">
+            <img src="img-05.webp" alt="Jiji's toasted ham and cheese sandwich halves served on a big speckled plate, showing layers of ham, cheese, lettuce and tomato" loading="lazy" />
+          </button>
+          <button type="button" class="wide" data-lightbox="img-06.webp" data-caption="Toasted ham &amp; cheese sandwich — homemade style" aria-label="Enlarge photo of the toasted sandwich in homemade style">
+            <img src="img-06.webp" alt="The same toasted ham and cheese sandwich resting on a linen cloth over a wooden board, with cherry tomatoes beside it" loading="lazy" />
+          </button>
+          <button type="button" class="wide" data-lightbox="img-07.webp" data-caption="Open sandwich — edited, on a plate" aria-label="Enlarge edited photo of the open sandwich on a plate">
+            <img src="img-07.webp" alt="Edited homemade-style photo of Jiji's open sandwich on a small plate — round ham slices and bacon over lettuce, cheese and tomato, drizzled with creamy orange sauce" loading="lazy" />
+          </button>
+          <button type="button" class="wide" data-lightbox="img-08.webp" data-caption="Open sandwich — edited, from above" aria-label="Enlarge edited photo of the open sandwich from above">
+            <img src="img-08.webp" alt="Edited photo from above of two open sandwiches on a wooden board, topped with round ham slices, bacon, lettuce, cheese and creamy orange sauce" loading="lazy" />
+          </button>
+        </div>
+        <div class="dish-body">
+          <div class="tags"><span class="tag tag-main">Main dish</span><span class="tag tag-gold">Newest addition</span></div>
+          <h3>Toasted Ham &amp; Cheese Sandwich</h3>
+          <p>My stacked toasted sandwich, served up on a big plate &mdash; golden toasted bread layered with ham, cheese, crisp lettuce and tomato, finished with my creamy orange sauce. The open-faced shots show it before the top goes on, loaded and ready. Simple, hearty, and made with love.</p>
+          <ul>
+            <li>Toasted bread, crisp and golden on the outside</li>
+            <li>Layers of ham and cheese with lettuce &amp; tomato</li>
+            <li>Bacon and round ham slices in the open-faced version</li>
+            <li>A drizzle of creamy orange sauce in every bite</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="dish">
+        <div class="dish-photos">
+          <button type="button" class="full" data-lightbox="img-09.webp" data-caption="Seaweed rice rolls — edited" aria-label="Enlarge edited photo of the seaweed rice rolls">
+            <img src="img-09.webp" alt="Edited photo of Jiji's seaweed rice rolls lined up on a white fluted plate over a linen cloth — mixed-grain rice wrapped in dark green nori, with a small bowl of soy sauce and chopsticks beside the plate" loading="lazy" />
+          </button>
+        </div>
+        <div class="dish-body">
+          <div class="tags"><span class="tag tag-main">Main dish</span><span class="tag tag-gold">Newest addition</span></div>
+          <h3>Seaweed Rice Rolls</h3>
+          <p>A neat row of my seaweed rice rolls on a white fluted plate &mdash; soft mixed-grain rice tucked into glossy dark-green nori, finished with a sprinkle of herbs. Simple, fresh, and so satisfying, bite after bite.</p>
+          <ul>
+            <li>Mixed-grain rice, soft and seasoned</li>
+            <li>Wrapped in crisp, glossy nori seaweed</li>
+            <li>Finished with a light sprinkle of herbs</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="dish">
+        <div class="dish-photos">
+          <button type="button" class="wide" data-lightbox="img-10.webp" data-caption="Tacos with salsa verde — edited" aria-label="Enlarge edited photo of the tacos with salsa verde">
+            <img src="img-10.webp" alt="Edited photo of Jiji's soft tacos filled with lettuce and chicken beside a bowl of green salsa verde and a lime wedge" loading="lazy" />
+          </button>
+          <button type="button" class="wide" data-lightbox="img-11.webp" data-caption="Taco tray — edited" aria-label="Enlarge edited photo of the taco tray">
+            <img src="img-11.webp" alt="Edited photo of six tacos on a tray — seasoned beef, shredded beef with pickled pink onions, and pulled chicken with cilantro and lime" loading="lazy" />
+          </button>
+        </div>
+        <div class="dish-body">
+          <div class="tags"><span class="tag tag-main">Main dish</span><span class="tag tag-gold">Newest addition</span></div>
+          <h3>Tacos with Salsa Verde</h3>
+          <p>Taco night, my way &mdash; soft tortillas loaded three ways, with seasoned beef, tender shredded beef under pickled pink onions, and pulled chicken piled high with fresh cilantro. Fresh lettuce, cilantro and lime on top, and a bowl of my green salsa verde right in the middle for spooning over every bite.</p>
+          <ul>
+            <li>Soft tortillas with chicken and crisp lettuce</li>
+            <li>Seasoned beef &amp; shredded beef with pickled pink onions</li>
+            <li>Pulled chicken with cilantro &amp; lime</li>
+            <li>Homemade salsa verde and lime on the side</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="dish">
+        <div class="dish-photos">
+          <button type="button" class="tall" data-lightbox="img-12.webp" data-caption="Roasted chicken plate — edited, first view" aria-label="Enlarge edited photo of the roasted chicken plate, first view">
+            <img src="img-12.webp" alt="Edited photo of Jiji's roasted chicken plate — golden glazed chicken pieces beside a molded mound of mixed-grain rice and herb-sprinkled roasted potato wedges" loading="lazy" />
+          </button>
+          <button type="button" class="tall" data-lightbox="img-13.webp" data-caption="Roasted chicken plate — edited, second view" aria-label="Enlarge edited photo of the roasted chicken plate, second view">
+            <img src="img-13.webp" alt="Edited second view of the roasted chicken plate with glossy caramelized chicken, mixed-grain rice and roasted sweet potato wedges" loading="lazy" />
+          </button>
+          <button type="button" class="tall" data-lightbox="img-14.webp" data-caption="Roasted chicken plate — edited, third view" aria-label="Enlarge edited photo of the roasted chicken plate, third view">
+            <img src="img-14.webp" alt="Edited third view of the roasted chicken plate, held up close — juicy roasted chicken in front, molded mixed-grain rice and wedges behind" loading="lazy" />
+          </button>
+          <button type="button" class="tall" data-lightbox="img-15.webp" data-caption="Roasted chicken — edited, fresh from the pan" aria-label="Enlarge edited photo of the roasted chicken fresh from the pan">
+            <img src="img-15.webp" alt="Edited photo of Jiji's whole roasted chicken resting in its foil-lined pan, skin deep golden and caramelized, garnished with lemon, fresh herbs and garlic in its rich pan juices" loading="lazy" />
+          </button>
+        </div>
+        <div class="dish-body">
+          <div class="tags"><span class="tag tag-main">Main dish</span><span class="tag tag-gold">Newest addition</span></div>
+          <h3>Roasted Chicken Plate</h3>
+          <p>My roasted chicken, golden and glossy from the pan &mdash; served with a molded mound of mixed-grain rice and roasted potato wedges sprinkled with herbs. The last shot is the bird straight out of the oven, resting in its own rich juices before carving.</p>
+          <ul>
+            <li>Roasted chicken with deep golden, caramelized skin</li>
+            <li>Molded mixed-grain rice sprinkled with herbs</li>
+            <li>Roasted potato &amp; sweet potato wedges on the side</li>
+            <li>Plus the whole bird fresh from the pan</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="gallery" aria-labelledby="gallery-title">
+    <div class="section-head">
+      <div class="label">Photo gallery</div>
+      <h2 id="gallery-title">My food photos so far</h2>
+      <p>All 20 of my food photos so far, in the edited versions &mdash; all in one place. Filter by mains or desserts, and tap a photo to view it bigger.</p>
+    </div>
+    <div class="filters" role="group" aria-label="Filter gallery">
+      <button type="button" class="filter" data-filter="all" aria-pressed="true">All photos</button>
+      <button type="button" class="filter" data-filter="main" aria-pressed="false">Mains</button>
+      <button type="button" class="filter" data-filter="dessert" aria-pressed="false">Desserts</button>
+    </div>
+    <div class="gallery" id="galleryGrid">
+      <button type="button" class="shot" data-cat="main" data-lightbox="img-01.webp" data-caption="Savory Rice Plate with Sotanghon — edited">
+        <img src="img-01.webp" alt="Edited savory rice plate with sotanghon, full plate view" loading="lazy" />
+        <span>Savory Rice Plate<small>Edited &mdash; with sotanghon &amp; chayote</small></span>
+      </button>
+      <button type="button" class="shot" data-cat="main" data-lightbox="img-03.webp" data-caption="Savory Rice Plate — edited close-up">
+        <img src="img-03.webp" alt="Edited close-up of the savory rice plate showing shredded meat and rice grains" loading="lazy" />
+        <span>Rice Plate, Close-Up<small>Edited &mdash; shredded meat, potato &amp; onion</small></span>
+      </button>
+      <button type="button" class="shot" data-cat="dessert" data-lightbox="img-04.webp" data-caption="Buko Pandan — edited close-up">
+        <img src="img-04.webp" alt="Edited close-up of buko pandan dessert in a clear glass" loading="lazy" />
+        <span>Buko Pandan<small>Edited &mdash; creamy coconut &amp; pandan jelly</small></span>
+      </button>
+      <button type="button" class="shot" data-cat="main" data-lightbox="img-05.webp" data-caption="Toasted Ham &amp; Cheese Sandwich — on a big plate">
+        <img src="img-05.webp" alt="Toasted ham and cheese sandwich halves on a big speckled plate" loading="lazy" />
+        <span>Toasted Sandwich, Big Plate<small>Ham, cheese, lettuce &amp; tomato</small></span>
+      </button>
+      <button type="button" class="shot" data-cat="main" data-lightbox="img-06.webp" data-caption="Toasted Ham &amp; Cheese Sandwich — homemade style">
+        <img src="img-06.webp" alt="Toasted ham and cheese sandwich on a linen cloth over a wooden board" loading="lazy" />
+        <span>Toasted Sandwich<small>Homemade style, fresh off the board</small></span>
+      </button>
+      <button type="button" class="shot" data-cat="main" data-lightbox="img-07.webp" data-caption="Open Sandwich — edited, on a plate">
+        <img src="img-07.webp" alt="Edited open sandwich on a small plate with round ham, bacon, lettuce, cheese and orange sauce" loading="lazy" />
+        <span>Open Sandwich, On a Plate<small>Edited &mdash; ham, bacon &amp; orange sauce</small></span>
+      </button>
+      <button type="button" class="shot" data-cat="main" data-lightbox="img-08.webp" data-caption="Open Sandwich — edited, from above">
+        <img src="img-08.webp" alt="Edited photo from above of two open sandwiches on a wooden board" loading="lazy" />
+        <span>Open Sandwich, From Above<small>Edited &mdash; loaded and ready to close</small></span>
+      </button>
+      <button type="button" class="shot" data-cat="dessert" data-lightbox="img-02.webp" data-caption="Buko Pandan — edited, in a glass">
+        <img src="img-02.webp" alt="Edited buko pandan served in a tall glass on a linen cloth" loading="lazy" />
+        <span>Buko Pandan, Served<small>Edited &mdash; ice-cold and ready to eat</small></span>
+      </button>
+      <button type="button" class="shot" data-cat="dessert" data-lightbox="img-16.webp" data-caption="Buko Pandan — another edited take, close-up">
+        <img src="img-16.webp" alt="Another edited take on buko pandan, close-up in a glass with mango and coconut beside it" loading="lazy" />
+        <span>Buko Pandan, Take Two<small>Edited &mdash; close-up with mango</small></span>
+      </button>
+      <button type="button" class="shot" data-cat="dessert" data-lightbox="img-17.webp" data-caption="Buko Pandan — another edited take, on a board">
+        <img src="img-17.webp" alt="Another edited take on buko pandan in a tall glass on a wooden board, with pandan jelly cubes and mango around it" loading="lazy" />
+        <span>Buko Pandan, On a Board<small>Edited &mdash; jelly cubes &amp; mango</small></span>
+      </button>
+      <button type="button" class="shot" data-cat="main" data-lightbox="img-09.webp" data-caption="Seaweed Rice Rolls — edited">
+        <img src="img-09.webp" alt="Edited seaweed rice rolls on a white fluted plate" loading="lazy" />
+        <span>Seaweed Rice Rolls<small>Edited &mdash; mixed-grain rice in nori</small></span>
+      </button>
+      <button type="button" class="shot" data-cat="main" data-lightbox="img-10.webp" data-caption="Tacos with Salsa Verde — edited">
+        <img src="img-10.webp" alt="Edited tacos with a bowl of green salsa verde and lime" loading="lazy" />
+        <span>Tacos &amp; Salsa Verde<small>Edited &mdash; chicken, lettuce &amp; lime</small></span>
+      </button>
+      <button type="button" class="shot" data-cat="main" data-lightbox="img-11.webp" data-caption="Taco Tray — edited">
+        <img src="img-11.webp" alt="Edited tray of six tacos with beef, pulled chicken, pickled onions and cilantro" loading="lazy" />
+        <span>Taco Tray<small>Edited &mdash; beef, chicken &amp; pickled onion</small></span>
+      </button>
+      <button type="button" class="shot" data-cat="main" data-lightbox="img-12.webp" data-caption="Roasted Chicken Plate — edited, first view">
+        <img src="img-12.webp" alt="Edited roasted chicken plate with mixed-grain rice and potato wedges, first view" loading="lazy" />
+        <span>Roasted Chicken Plate<small>Edited &mdash; with mixed-grain rice</small></span>
+      </button>
+      <button type="button" class="shot" data-cat="main" data-lightbox="img-13.webp" data-caption="Roasted Chicken Plate — edited, second view">
+        <img src="img-13.webp" alt="Edited roasted chicken plate with mixed-grain rice and sweet potato wedges, second view" loading="lazy" />
+        <span>Chicken Plate, Second View<small>Edited &mdash; golden &amp; glossy</small></span>
+      </button>
+      <button type="button" class="shot" data-cat="main" data-lightbox="img-14.webp" data-caption="Roasted Chicken Plate — edited, third view">
+        <img src="img-14.webp" alt="Edited roasted chicken plate held up close, third view" loading="lazy" />
+        <span>Chicken Plate, Up Close<small>Edited &mdash; juicy &amp; caramelized</small></span>
+      </button>
+      <button type="button" class="shot" data-cat="main" data-lightbox="img-15.webp" data-caption="Roasted Chicken — edited, fresh from the pan">
+        <img src="img-15.webp" alt="Edited whole roasted chicken in its foil-lined pan with pan juices" loading="lazy" />
+        <span>Chicken, Fresh From the Pan<small>Edited &mdash; resting in its juices</small></span>
+      </button>
+      <button type="button" class="shot" data-cat="main" data-lightbox="img-18.webp" data-caption="Egg &amp; Avocado Sandwich — edited">
+        <img src="img-18.webp" alt="Edited photo of two stacked egg and avocado sandwiches on whole-grain bread, served on a rustic plate with avocado and cherry tomatoes behind" loading="lazy" />
+        <span>Egg &amp; Avocado Sandwich<small>Edited &mdash; whole-grain &amp; stacked</small></span>
+      </button>
+      <button type="button" class="shot" data-cat="main" data-lightbox="img-19.webp" data-caption="Egg &amp; Avocado Sandwich — edited, close-up">
+        <img src="img-19.webp" alt="Edited close-up of the egg and avocado sandwiches showing fluffy egg and avocado slices between whole-grain bread, resting on a linen cloth" loading="lazy" />
+        <span>Egg Sandwich, Close-Up<small>Edited &mdash; fluffy egg &amp; avocado</small></span>
+      </button>
+      <button type="button" class="shot" data-cat="main" data-lightbox="img-20.webp" data-caption="Loaded Potato Skins — edited">
+        <img src="img-20.webp" alt="Edited photo of loaded potato skins on a foil-lined tray, cheese melted golden on top and sprinkled with fresh herbs" loading="lazy" />
+        <span>Loaded Potato Skins<small>Edited &mdash; melted cheese &amp; herbs</small></span>
+      </button>
+    </div>
+  </section>
+
+  <section aria-labelledby="cook-title">
+    <div class="section-head">
+      <div class="label">What I cook</div>
+      <h2 id="cook-title">The food I love making</h2>
+    </div>
+    <div class="cook-grid">
+      <div class="cook-item">
+        <div class="icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20h16M6 16c-1.5-2-2-4.5-1-7 2 1 3.5 2 4.5 4C10 9 12 5 17 4c-.5 5-2 8-5 10 2 .3 4 1 6 2"/></svg></div>
+        <h3>Filipino comfort food</h3>
+        <p>The dishes I grew up with in the Philippines &mdash; savory, saucy, and always served with rice.</p>
+      </div>
+      <div class="cook-item">
+        <div class="icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 11h18a9 9 0 0 1-18 0Z"/><path d="M8 7c0-1.5 1-1.5 1-3M13 7c0-1.5 1-1.5 1-3M18 7c0-1.5 1-1.5 1-3"/></svg></div>
+        <h3>Rice plates &amp; noodles</h3>
+        <p>Hearty plates built around rice, plus noodle dishes like sotanghon that complete the meal.</p>
+      </div>
+      <div class="cook-item">
+        <div class="icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-4-3-8-6.5-8-11a5 5 0 0 1 8-4 5 5 0 0 1 8 4c0 4.5-4 8-8 11Z"/></svg></div>
+        <h3>Sweet Filipino desserts</h3>
+        <p>Cold, creamy favorites like buko pandan &mdash; the sweet ending every Filipino gathering needs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="about-title">
+    <div class="section-head">
+      <div class="label">About the cook</div>
+      <h2 id="about-title">Hi, I&rsquo;m Jiji</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-card">
+        <h3>Jeraldine &ldquo;Jiji&rdquo; Masamong</h3>
+        <p>I&rsquo;m a Filipino cook with seven years of kitchen experience. I learned to love food back home in the Philippines, then built my career in kitchens across the United States &mdash; from Walt Disney World in Florida to Eddie&rsquo;s Cafe in West Glacier, Montana, where I ran the kitchen when the manager and sous chef were away, created specials, and trained new staff.</p>
+        <p>At home, I cook the way my heart remembers: homemade, generous, and full of flavor. This page is where all of it lives.</p>
+        <p>My dream is to one day open my own restaurant or food truck &mdash; and every dish here is a step toward it.</p>
+        <div class="chips">
+          <span class="chip">Tagalog</span><span class="chip">Bisaya</span><span class="chip">English</span><span class="chip">A little Waray</span><span class="chip">A little Spanish</span>
+        </div>
+      </div>
+      <div class="about-card">
+        <h3>My kitchen journey</h3>
+        <ol class="timeline">
+          <li><span class="dot" aria-hidden="true"></span><div><b>Philippines &mdash; where it started</b><span>Grew up around home cooking and caring for others; the flavors of home still guide everything I make.</span></div></li>
+          <li><span class="dot" aria-hidden="true"></span><div><b>Walt Disney World, Florida</b><span>Kitchen experience in one of the busiest food operations in the country.</span></div></li>
+          <li><span class="dot" aria-hidden="true"></span><div><b>Season 52, Florida</b><span>Continued building professional kitchen experience in Florida.</span></div></li>
+          <li><span class="dot" aria-hidden="true"></span><div><b>Glacier Park Collection &mdash; Eddie&rsquo;s Cafe, West Glacier, Montana (2026)</b><span>Line cook who managed the kitchen when leadership was absent, created specials, and trained staff.</span></div></li>
+          <li><span class="dot" aria-hidden="true"></span><div><b>Next: my own kitchen</b><span>Working toward my long-term dream &mdash; a restaurant or food truck of my own.</span></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <div class="closing">
+    <h2>This is just the start</h2>
+    <p>My portfolio keeps growing &mdash; a savory rice plate, buko pandan, sandwiches toasted and open-faced, seaweed rice rolls, tacos with salsa verde, and my roasted chicken plate, plus egg &amp; avocado sandwiches and loaded potato skins in the gallery &mdash; all in the edited versions. Send me more of your food photos anytime and I&rsquo;ll add them here.</p>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap"><strong>Jiji&rsquo;s Kitchen</strong> &mdash; homemade Filipino cooking by Jeraldine &ldquo;Jiji&rdquo; Masamong. All photos show my own dishes, in the edited versions I picked.</div>
+</footer>
+
+<dialog id="lightbox" aria-label="Photo viewer">
+  <div class="lb">
+    <img id="lbImg" alt="" />
+    <div class="lb-bar"><b id="lbCaption"></b><button type="button" class="lb-close" id="lbClose">Close</button></div>
+  </div>
+</dialog>
+
+<script>
+(function(){
+  var dialog = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lbImg');
+  var lbCaption = document.getElementById('lbCaption');
+  function openLb(src, caption){
+    lbImg.src = src; lbImg.alt = caption || '';
+    lbCaption.textContent = caption || '';
+    if (typeof dialog.showModal === 'function') dialog.showModal();
+  }
+  document.querySelectorAll('[data-lightbox]').forEach(function(el){
+    el.addEventListener('click', function(){ openLb(el.getAttribute('data-lightbox'), el.getAttribute('data-caption')); });
+  });
+  document.getElementById('lbClose').addEventListener('click', function(){ dialog.close(); });
+  dialog.addEventListener('click', function(e){ if (e.target === dialog) dialog.close(); });
+
+  var filters = document.querySelectorAll('.filter');
+  var shots = document.querySelectorAll('.shot');
+  filters.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      filters.forEach(function(b){ b.setAttribute('aria-pressed','false'); });
+      btn.setAttribute('aria-pressed','true');
+      var f = btn.getAttribute('data-filter');
+      shots.forEach(function(s){ s.hidden = !(f === 'all' || s.getAttribute('data-cat') === f); });
+    });
+  });
+})();
+</script>
+</body>
+</html>
